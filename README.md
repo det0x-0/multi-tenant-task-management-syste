@@ -4,6 +4,22 @@ Zenith is a premium, enterprise-ready task management platform designed for mult
 
 ![Zenith Preview](https://via.placeholder.com/1200x600?text=Zenith+Dashboard)
 
+## 🏗 Architecture Overview
+
+```mermaid
+graph TD
+    User((User)) --> Browser[Browser]
+    Browser --> React[React Frontend]
+    React -- "JWT + Org-Slug" --> Express[Express Backend]
+    Express -- Middleware --> RBAC[Auth/RBAC Layer]
+    RBAC -- "Scoped Query" --> DB[(Native SQLite DB)]
+    
+    subgraph DataIsolation [Data Isolation]
+        DB --> TenantA["org_id: A (Tenant A Data)"]
+        DB --> TenantB["org_id: B (Tenant B Data)"]
+    end
+```
+
 ## 🚀 Core Architectural Pillars
 
 ### 1. Multi-Tenant Architecture
